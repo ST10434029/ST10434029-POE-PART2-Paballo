@@ -1,0 +1,42 @@
+name: ST10434029 Task_Class Test File    
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: List contents
+        run: ls
+
+      - name: Compile classes
+        run: javac -d ./bin -cp "./testresources/junit-platform-console-standalone-1.9.2.jar" ./src/ST10434029_PROG5121_POE_Part_2/Task_ClassTest.java ./src/ST10434029_PROG5121_POE_Part_2/Task_ClassTest.java ./test/ST10434029_PROG5121_POE_Part_2/Task_ClassTest.java ./test/ST10434029_PROG5121_POE_Part_2/taskClassTest.java
+
+      - name: List contents of bin directory after compile
+        run: ls ./bin/PROG5121_POE_Part_2
+
+      # Run IntTestTest and create report
+      - name: Run IntTestTest and create report
+        run: |
+          ls ./bin
+          java -jar ./testresources/junit-platform-console-standalone-1.9.2.jar -cp ./bin --select-class ST10434029_PROG5121_POE_Part_2.Task_ClassTest
+
+      # Run StringTestTest and create report
+      - name: Run StringTestTest and create report
+        run: |
+          ls ./bin
+          java -jar ./testresources/junit-platform-console-standalone-1.9.2.jar -cp ./bin --select-class PROG5121_POE_Part_2.Task_ClassTest
